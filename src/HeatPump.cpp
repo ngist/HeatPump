@@ -109,7 +109,7 @@ bool HeatPump::connect(HardwareSerial *serial, int bitrate, int rx, int tx) {
     retry = true;
   }
   if (rx >= 0 && tx >= 0) {
-#if defined(ESP32)
+#if defined(ESP32) || defined(RP2040)
     rxPin = rx;
     txPin = tx;
     _HardSerial->begin(bitrate, SERIAL_8E1, rx, tx);
@@ -117,7 +117,7 @@ bool HeatPump::connect(HardwareSerial *serial, int bitrate, int rx, int tx) {
     _HardSerial->begin(bitrate, SERIAL_8E1);
 #endif
   } else {
-#if defined(ESP32)
+#if defined(ESP32) || defined(RP2040)
     if (rxPin > 0 && rxPin > 0) // check if custom pin previous set
     {
       _HardSerial->begin(bitrate, SERIAL_8E1, rxPin, txPin);
@@ -135,7 +135,7 @@ bool HeatPump::connect(HardwareSerial *serial, int bitrate, int rx, int tx) {
   }
   
 // settle before we start sending packets
-#if defined(ESP32)
+#if defined(ESP32) || defined(RP2040)
   delay(1000);
 #else
   delay(2000);
